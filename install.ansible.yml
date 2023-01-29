@@ -1,0 +1,33 @@
+---
+  - name: Installing requirements
+    hosts: localhost
+    connection: local
+    become: yes
+
+    tasks:
+
+      - name: Exiting if we are not running Ubuntu
+        ansible.builtin.fail:
+          msg: "The OS is {{ ansible_facts['distribution'] }}. This playbook is only meant to work with Ubuntu."
+        when: ansible_facts['distribution'] != "Ubuntu"
+
+      - name: Updating system
+        ansible.builtin.apt:
+          update_cache: yes
+          upgrade: full
+        tags: update
+
+      - name: Installing packages
+        ansible.builtin.apt:
+          cache_valid_time: 600
+          update_cache: yes
+          install_recommends: yes
+          name:
+            # Fortran
+            - gfortran
+          state: latest
+        tags: install
+
+      - name: Cleaning the local apt cache
+        ansible.builtin.apt:
+          autoclean: yes
