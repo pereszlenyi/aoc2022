@@ -23,6 +23,8 @@
           update_cache: yes
           install_recommends: yes
           name:
+            - cmake
+            - build-essential
             # Fortran
             - gfortran
           state: latest
