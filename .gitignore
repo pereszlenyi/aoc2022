@@ -1,0 +1,5 @@
+# All files that end with a ~
+**/*~
+
+# All build artifacts
+day_*/build/
