@@ -2,6 +2,7 @@
 
 # Run this script to install all the compilers and interpreters
 # required to build and run the solutions.
+# It is only meant to work with Ubuntu.
 
 ECHO=/usr/bin/echo
 SUDO=/usr/bin/sudo
