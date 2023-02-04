@@ -22,12 +22,12 @@ Now, let's jump in and solve puzzles!
 It was created in 1957 by [John Backus](https://en.wikipedia.org/wiki/John_Backus) and folks at [IBM](https://www.ibm.com/ibm/history/ibm100/us/en/icons/fortran/).
 Despite being so old, Fortran is still [alive and under development](https://fortran-lang.org/).
 New features are being added with each version.
-Some interesting features of the language are being case insensitive and that arrays are indexed from 1.
+Some interesting features of the language are being case insensitive and that [arrays are indexed from 1](day_01/most_calories.f90#L14).
 
-### Solution for [Day 1: Calorie Counting](https://adventofcode.com/2022/day/1)
+### Solution for [Day 1: Calorie Counting](https://adventofcode.com/2022/day/1) [&#128194;](day_01)
 
 The source code of the solution is in [`most_calories.f90`](day_01/most_calories.f90).
 To build and run it, just execute [`build_and_run.sh`](day_01/build_and_run.sh).
 It will build the source using [CMake](https://cmake.org/) and will run the executable on input [`input.txt`](day_01/input.txt).
 
-Both parts of the puzzle can be solved by calculating the top 3 most Calories which is stored in the `top_calories` variable in our case.
+Both parts of the puzzle can be solved by calculating the top 3 most Calories which is stored in the [`top_calories`](day_01/most_calories.f90#L8) variable in our case.
