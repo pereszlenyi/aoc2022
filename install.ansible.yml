@@ -27,6 +27,8 @@
             - build-essential
             # Fortran
             - gfortran
+            # COBOL
+            - gnucobol
           state: latest
         tags: install
 
