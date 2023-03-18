@@ -7,7 +7,6 @@
 ECHO=/usr/bin/echo
 SUDO=/usr/bin/sudo
 DIRNAME=/usr/bin/dirname
-LS=/usr/bin/ls
 APTGET=/usr/bin/apt-get
 ANSIBLE=/usr/bin/ansible-playbook
 
@@ -16,7 +15,7 @@ function die {
 	exit 1
 }
 
-for FILE in "$ECHO" "$SUDO" "$DIRNAME" "$LS" "$APTGET" ; do
+for FILE in "$ECHO" "$SUDO" "$DIRNAME" "$APTGET" ; do
 	[ -x "$FILE" ] || die "'$FILE' doesn't exist or not executable."
 done
 
@@ -26,9 +25,9 @@ function check_ansible {
 
 DIR=$($DIRNAME "$0")
 cd $DIR || die "Can't enter $DIR."
-$LS ./install.ansible.yml >/dev/null || die "Ansible playbook is missing."
+[ -r ./install.ansible.yml ] || die "Ansible playbook is missing."
 
-check_ansible || ($ECHO "Installing ansible:" && $SUDO $APTGET install ansible && $ECHO "")
+check_ansible || ($ECHO "Installing Ansible:" && $SUDO $APTGET --assume-yes install ansible && $ECHO "")
 check_ansible || die "Ansible is not installed."
 
 $ANSIBLE ./install.ansible.yml --ask-become-pass && \
