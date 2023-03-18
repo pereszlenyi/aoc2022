@@ -52,3 +52,25 @@ Some interesting features of the language are:
 Similarly to the above, the source code is in [`rock_paper_scissors.cbl`](day_02/rock_paper_scissors.cbl), to build and run it, execute [`build_and_run.sh`](day_02/build_and_run.sh), and the input is in [`input.txt`](day_02/input.txt).
 Fortunately, the puzzle is quite easy.
 The only thing that may be a bit interesting (in the solution) is [how the score is calculated](day_02/rock_paper_scissors.cbl#L50-L58).
+
+## Day 3: Lisp
+
+Lisp (LISt Processor) was designed by [John McCarthy](https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)) in 1960 and was first implemented by [Steve Russell](https://en.wikipedia.org/wiki/Steve_Russell_(computer_scientist)).
+Initially, Lisp was meant to be a completely theoretical (mathematical) programming language but then quickly became the favoured language for early artificial intelligence research.
+This origin makes Lisp quite an unusual language compared to Fortran or COBOL.
+Lisp has evolved over the years and many dialects emerged.
+We use here one of the most common, [ANSI Common Lisp](https://en.wikipedia.org/wiki/Common_Lisp).
+Some interesting features of the language are:
+
+* In Lisp, `((`everything`)` `(`is in`)` `(`parentheses`))`.
+* Lisp uses a [*prefix notation*](https://en.wikipedia.org/wiki/Polish_notation) which means that `1 + 2` is written as `(+ 1 2)`.
+* [Linked list](https://en.wikipedia.org/wiki/Linked_list) is the major data structure and code is also represented as lists.
+* The following functions are all used to check for equality: `equal`, `eql`, `eq`,`=`, `equalp`, `string-equal`.
+
+### Solution for [Day 3: Rucksack Reorganization](https://adventofcode.com/2022/day/3) [&#128194;](day_03)
+
+The source code of the solution is in file [`rucksack.lisp`](day_03/rucksack.lisp).
+To build and run it, execute [`build_and_run.sh`](day_03/build_and_run.sh).
+The solutions to both parts of the puzzle boil down to calculating intersections of sets.
+In our solution, it is done without using loops.
+This is possible in Lisp by using [higher-order functions](https://en.wikipedia.org/wiki/Higher-order_function) and [recursion](https://en.wikipedia.org/wiki/Recursion) instead.
