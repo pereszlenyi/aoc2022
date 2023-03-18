@@ -29,6 +29,8 @@
             - gfortran
             # COBOL
             - gnucobol
+            # Lisp
+            - clisp
           state: latest
         tags: install
 
