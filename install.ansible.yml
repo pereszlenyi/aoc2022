@@ -31,9 +31,50 @@
             - gnucobol
             # Lisp
             - clisp
+            # BASIC
+            - vice
+            - p7zip-full
           state: latest
         tags: install
 
       - name: Cleaning the local apt cache
         ansible.builtin.apt:
           autoclean: yes
+
+  - name: Setting up the environment for the current user
+    hosts: localhost
+    connection: local
+
+    tasks:
+
+      - name: Creating directories for day_04
+        ansible.builtin.file:
+          path: '{{ item }}'
+          state: directory
+          mode: u=rwx,g=rx,o=rx
+        with_items:
+          - ./day_04/build/vice/system
+          - ./day_04/build/disk
+
+      - name: Downloading VICE 3.5
+        ansible.builtin.get_url:
+          url: https://sourceforge.net/projects/vice-emu/files/releases/binaries/windows/GTK3VICE-3.5-win64.7z/download
+          dest: ./day_04/build/vice/GTK3VICE-3.5-win64.7z
+          mode: u=rw,g=r,o=r
+          checksum: sha256:54f0500a77515bdf75ede72188954a11738e62b91ae86cf5a02c824fd8917dac
+
+      - name: Decompressing VICE 3.5
+        ansible.builtin.shell:
+          cmd: cd ./day_04/build/vice/ && p7zip --decompress --keep ./GTK3VICE-3.5-win64.7z
+          creates: ./day_04/build/vice/GTK3VICE-3.5-win64
+          executable: /bin/bash
+
+      - name: Copying C64 system files
+        ansible.builtin.copy:
+          src: '{{ item }}'
+          dest: ./day_04/build/vice/system
+          remote_src: yes
+        with_items:
+          - ./day_04/build/vice/GTK3VICE-3.5-win64/C64/
+          - ./day_04/build/vice/GTK3VICE-3.5-win64/DRIVES/
+          - ./day_04/build/vice/GTK3VICE-3.5-win64/PRINTER/
