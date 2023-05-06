@@ -74,3 +74,62 @@ To build and run it, execute [`build_and_run.sh`](day_03/build_and_run.sh).
 The solutions to both parts of the puzzle boil down to calculating intersections of sets.
 In our solution, it is done without using loops.
 This is possible in Lisp by using [higher-order functions](https://en.wikipedia.org/wiki/Higher-order_function) and [recursion](https://en.wikipedia.org/wiki/Recursion) instead.
+
+## Day 4: BASIC (on the Commodore 64)
+
+[BASIC](https://en.wikipedia.org/wiki/BASIC) (Beginners' All-purpose Symbolic Instruction Code) was created by [John G. Kemeny](https://en.wikipedia.org/wiki/John_G._Kemeny) (or, in Hungarian, Kemény János György) and [Thomas E. Kurtz](https://en.wikipedia.org/wiki/Thomas_E._Kurtz) in 1963.
+They wanted to ease access to computers for students without strong scientific backgrounds.
+Later in the 80s, BASIC became hugely popular thanks to the emergence of [early home computers](https://en.wikipedia.org/wiki/Home_computer).
+These computers came with a [BASIC interpreter](https://en.wikipedia.org/wiki/BASIC_interpreter) preinstalled.
+It comes as no surprise that many of today's famous tech [people started with BASIC](https://youtu.be/nnjg3G2gkok?t=12).
+
+On a personal note, BASIC was also the first programming language for me.
+It ran on the legendary [Commodore 64](https://en.wikipedia.org/wiki/Commodore_64) that my parents bought way back, even before the fall of the [Iron Curtain](https://en.wikipedia.org/wiki/Iron_Curtain).
+Although most of the time I was [p](https://youtu.be/vdQnaLyYoM4?t=44)[l](https://youtu.be/5JF9gTknSK8?t=29)[a](https://youtu.be/hDAhixO2t5w?t=13)[y](https://youtu.be/Y0pLMkAtwpQ?t=23)[i](https://youtu.be/ivHFP3dJAkM?t=26)[n](https://youtu.be/WAfc_Ugki5U?t=30)[g](https://youtu.be/KyjYejrJxek?t=18) [g](https://youtu.be/CX8jdKNO4t8?t=11)[a](https://youtu.be/ekAVecHyN_4?t=9)[m](https://youtu.be/LWFGZ8Gj1Ws?t=18)[e](https://youtu.be/6BOXR008V2I?t=226)[s](https://youtu.be/X1jKHHeufS0?t=135) on it, I occasionally tried to write some *basic* programs too.
+As a tribute to this amazing machine, I decided to solve this day's puzzle using [C64's BASIC](https://www.c64-wiki.com/wiki/C64-Commands).
+Some interesting features of (this) BASIC are:
+
+* It was originally developed by [Microsoft](https://en.wikipedia.org/wiki/Microsoft_BASIC).
+* Lines of the program code have to be numbered.
+* [Variable](https://www.c64-wiki.com/wiki/Variable) names have to be unique in their first two letters, as the rest is ignored by the interpreter.
+* BASIC received [harsh criticism](https://programmingisterrible.com/post/40132515169/dijkstra-basic) from [Dijkstra](https://en.wikipedia.org/wiki/Edsger_W._Dijkstra).
+
+### Solution for [Day 4: Camp Cleanup](https://adventofcode.com/2022/day/4) [&#128194;](day_04)
+
+The challenge started by figuring out how to run a BASIC code written for the Commodore 64.
+Unfortunately, I don't have access to a Commodore any more.
+So, the next best thing is [VICE](https://vice-emu.sourceforge.io/), "the Versatile Commodore Emulator".
+Running [`install.sh`](install.sh) will set this up for you.
+The source of the solution is in [`cleanup.bas`](day_04/cleanup.bas) and the input is in [`input.txt`](day_04/input.txt), as usual.
+Running this on the emulator is not entirely trivial though.
+While we are used to [ASCII](https://en.wikipedia.org/wiki/ASCII) text files on the PC, Commodore uses a different character set (called [PETSCII](https://www.c64-wiki.com/wiki/PETSCII)).
+This requires the source and input files to be [converted](day_04/run.sh#L23-L26).
+The converted files then have to be [written to a virtual disk image](day_04/run.sh#L27-L32).
+This disk image could be written to an actual floppy disk and then the program could be run on an actual C64.
+We can also [start the emulator](day_04/run.sh#L35-L36) with the disk image attached.
+All of this is done by [`run.sh`](day_04/run.sh), so all you need to do is run it.
+It will open the emulator window and start the program.
+With the default input, you will see the following on the emulator's screen:
+
+~~~
+    **** COMMODORE 64 BASIC V2 ****
+
+ 64K RAM SYSTEM  38911 BASIC BYTES FREE
+
+READY.
+LOAD"*",8,1:
+
+SEARCHING FOR *
+LOADING
+READY.
+RUN:
+
+PROGRAM STARTED
+PROCESSING INPUT... DONE
+# OF FULL CONTAINMENTS: 2
+# OF OVERLAPS: 4
+
+READY.
+~~~
+
+You can look at the source code inside the emulator by typing in [LIST](https://www.c64-wiki.com/wiki/LIST) and you can run the program again by [RUN](https://www.c64-wiki.com/wiki/RUN_(BASIC)).
