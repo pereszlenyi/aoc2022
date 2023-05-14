@@ -6,19 +6,21 @@ ECHO=/usr/bin/echo
 DIRNAME=/usr/bin/dirname
 PETCAT=/usr/bin/petcat
 C1541=/usr/bin/c1541
-X64=/usr/bin/x64sc
+X64=./build/vice/src/x64sc
 
 function die {
 	$ECHO "Error: $1"
 	exit 1
 }
 
-for FILE in "$ECHO" "$DIRNAME" "$PETCAT" "$C1541" "$X64" ; do
+for FILE in "$ECHO" "$DIRNAME" "$PETCAT" "$C1541" ; do
 	[ -x "$FILE" ] || die "'$FILE' doesn't exist or not executable."
 done
 
 DIR=$($DIRNAME "$0")
 cd $DIR || die "Can't enter $DIR."
+
+[ -x "$X64" ] || die "The C64 emulator doesn't exist or not executable."
 
 $ECHO "=== Converting cleanup.bas to PRG file cleanup.prg ===" && \
 $PETCAT -w2 -o ./build/disk/cleanup.prg -- ./cleanup.bas && \
@@ -33,6 +35,6 @@ $C1541 -attach ./build/disk/disk.d64 -write ./build/disk/input.seq "input,s" && 
 $ECHO "=== Showing contents of the disk image ===" && \
 $C1541 -attach ./build/disk/disk.d64 -list && \
 $ECHO "=== Starting the Commodore 64 emulator ===" && \
-$X64 -directory ./build/vice/system/ ./build/disk/disk.d64 && \
+$X64 -directory ./build/vice/data/ ./build/disk/disk.d64 && \
 $ECHO "=== All OK ===" || \
 die "Run failed."

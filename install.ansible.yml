@@ -33,7 +33,20 @@
             - clisp
             # BASIC
             - vice
-            - p7zip-full
+            - subversion
+            - autoconf
+            - automake
+            - build-essential
+            - byacc
+            - flex
+            - xa65
+            - libgtk-3-dev
+            - dos2unix
+            - libpulse-dev
+            - libasound2-dev
+            - libglew-dev
+            - libgif-dev
+            - libpcap-dev
           state: latest
         tags: install
 
@@ -53,28 +66,29 @@
           state: directory
           mode: u=rwx,g=rx,o=rx
         with_items:
-          - ./day_04/build/vice/system
+          - ./day_04/build/vice
           - ./day_04/build/disk
 
-      - name: Downloading VICE 3.5
-        ansible.builtin.get_url:
-          url: https://sourceforge.net/projects/vice-emu/files/releases/binaries/windows/GTK3VICE-3.5-win64.7z/download
-          dest: ./day_04/build/vice/GTK3VICE-3.5-win64.7z
-          mode: u=rw,g=r,o=r
-          checksum: sha256:54f0500a77515bdf75ede72188954a11738e62b91ae86cf5a02c824fd8917dac
+      - name: Checking out the subversion repository of VICE
+        ansible.builtin.subversion:
+          repo: https://svn.code.sf.net/p/vice-emu/code/tags/v3.7.1/vice/
+          dest: ./day_04/build/vice
+          in_place: yes
+          force: yes
 
-      - name: Decompressing VICE 3.5
+      - name: Configuring VICE
         ansible.builtin.shell:
-          cmd: cd ./day_04/build/vice/ && p7zip --decompress --keep ./GTK3VICE-3.5-win64.7z
-          creates: ./day_04/build/vice/GTK3VICE-3.5-win64
+          cmd: export enable_pdf_docs=no && cd ./day_04/build/vice/ && ./autogen.sh && ./configure --enable-gtk3ui --disable-html-docs
+          creates: ./day_04/build/vice/Makefile
           executable: /bin/bash
+        register: VICE_CONFIG_OUTPUT
 
-      - name: Copying C64 system files
-        ansible.builtin.copy:
-          src: '{{ item }}'
-          dest: ./day_04/build/vice/system
-          remote_src: yes
-        with_items:
-          - ./day_04/build/vice/GTK3VICE-3.5-win64/C64/
-          - ./day_04/build/vice/GTK3VICE-3.5-win64/DRIVES/
-          - ./day_04/build/vice/GTK3VICE-3.5-win64/PRINTER/
+      - name: Getting stats of ./day_04/build/vice/src/x64sc
+        ansible.builtin.stat:
+          path: ./day_04/build/vice/src/x64sc
+        register: STAT_X64
+
+      - name: Building VICE
+        community.general.make:
+          chdir: ./day_04/build/vice
+        when: VICE_CONFIG_OUTPUT['changed'] or not STAT_X64['stat']['exists']
