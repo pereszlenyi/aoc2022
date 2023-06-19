@@ -47,6 +47,10 @@
             - libglew-dev
             - libgif-dev
             - libpcap-dev
+            # Pascal
+            - dosbox
+            - unzip
+            - tofrodos
           state: latest
         tags: install
 
@@ -60,7 +64,7 @@
 
     tasks:
 
-      - name: Creating directories for day_04
+      - name: Creating directories for day_04 and day_05
         ansible.builtin.file:
           path: '{{ item }}'
           state: directory
@@ -68,6 +72,7 @@
         with_items:
           - ./day_04/build/vice
           - ./day_04/build/disk
+          - ./day_05/build
 
       - name: Checking out the subversion repository of VICE
         ansible.builtin.subversion:
@@ -92,3 +97,10 @@
         community.general.make:
           chdir: ./day_04/build/vice
         when: VICE_CONFIG_OUTPUT['changed'] or not STAT_X64['stat']['exists']
+
+      - name: Downloading Turbo Pascal 5.5
+        ansible.builtin.get_url:
+          url: https://altd.embarcadero.com/download/museum/tp55.zip
+          dest: ./day_05/build
+          mode: u=rw,g=,o=
+          checksum: sha256:a04ff65555f88cd7714a11362c6f625f254932679ad5623b207015893ef638b6
