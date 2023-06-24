@@ -133,3 +133,58 @@ READY.
 ~~~
 
 You can look at the source code inside the emulator by typing in [LIST](https://www.c64-wiki.com/wiki/LIST) and you can run the program again by [RUN](https://www.c64-wiki.com/wiki/RUN_(BASIC)).
+
+## Day 5: Pascal (with Turbo Pascal)
+
+[Pascal](https://en.wikipedia.org/wiki/Pascal_(programming_language)) was designed by [Niklaus Wirth](https://en.wikipedia.org/wiki/Niklaus_Wirth) in 1970.
+He named the language after the French scientist [Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal).
+In the 90s, [Commodore](#day-4-basic-on-the-commodore-64) home computers were replaced by [IBM PC compatible computers](https://en.wikipedia.org/wiki/IBM_PC_compatible) and, at the same time, the popularity of [BASIC](#day-4-basic-on-the-commodore-64) declined.
+A major cause of this decline was the increasing popularity of Pascal and, in particular, [Turbo Pascal](https://en.wikipedia.org/wiki/Turbo_Pascal).
+
+Turbo Pascal was first released in 1983 by [Borland](https://en.wikipedia.org/wiki/Borland).
+At that time, typically, programmers used multiple tools to create an executable program, such as a text editor to write the code and a compiler to compile it.
+In Turbo Pascal, all these functionalities were integrated in an [integrated development environment (IDE)](https://en.wikipedia.org/wiki/Integrated_development_environment).
+Contributing to its popularity, the compilation time was fast and it produced efficient executables, hence the name "Turbo".
+Pascal (and Turbo Pascal) was also widely used in introductory courses to programming.
+It was also the first language that I learnt in school.
+We used Turbo Pascal (obviously) that ran on [MS-DOS](https://en.wikipedia.org/wiki/MS-DOS).
+Later in the early 2000s, Borland released a few Turbo Pascal versions as [freeware](https://en.wikipedia.org/wiki/Freeware).
+To honor its legacy, I solved this day's puzzle using the latest free version of Turbo Pascal, [version 5.5](https://en.wikipedia.org/wiki/Turbo_Pascal#Version_5.5).
+
+Some interesting features of the language are:
+
+* Operator `:=` ([walrus operator](https://en.wiktionary.org/wiki/walrus_operator)) is used to assign a value to a variable.
+* Multi-line comments are between `(*` and `*)` and single-line comments are enclosed by `{` and `}`.
+* Blocks of code are written between the `begin` and `end` keywords.
+* A [pointer](https://www.tutorialspoint.com/pascal/pascal_pointers.htm) type is defined by prefixing the base type with `^`.
+The address of a variable can be obtained by the `@` operator.
+* The `string` type is a character array where the character at index `0` defines the length of the string.
+Consequently, the maximum length of a `string` is 255 and the characters of the string start at index `1`.
+
+### Solution for [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5) [&#128194;](day_05)
+
+Since Turbo Pascal 5.5 is for DOS, we will use [DOSBox](https://www.dosbox.com/) to run it.
+DOSBox is a great DOS emulator that you can use to run many of the classic DOS games.
+Running [`install.sh`](install.sh) installs DOSBox and downloads Turbo Pascal 5.5.
+
+The source code of the solution is in [`stacks.pas`](day_05/stacks.pas) and the default input is in [`input.txt`](day_05/input.txt).
+As usual, to build and run the solution, you just need to execute [`build_and_run.sh`](day_05/build_and_run.sh).
+This script does a couple of things.
+It [creates a shared folder](day_05/build_and_run.sh#L41-L43) that will be the `C:` drive in DOS.
+Then it [extracts Turbo Pascal 5.5](day_05/build_and_run.sh#L47-L48) from the downloaded zip file and [copies `stacks.pas` and `input.txt`](day_05/build_and_run.sh#L49-L50) to the shared folder.
+It then [starts DOSBox](day_05/build_and_run.sh#L54-L58) and, inside DOSBox, [compiles the source file](day_05/build_and_run.sh#L57) using `TPC.EXE`, the command-line compiler.
+Finally, it will [run the executable](day_05/build_and_run.sh#L58) with `input.txt`.
+
+With the DOSBox window open, you can start the Turbo Pascal IDE by typing in `Disk1\TURBO.EXE`.
+Then you can load `stacks.pas` into the editor, edit the code, build it, run it, etc.
+The source code is also compatible with [Free Pascal](https://www.freepascal.org/), so you can also use the Free Pascal Compiler to compile `stacks.pas`.
+
+Now, let's have some notes on the solution to the puzzle.
+We have to create a data structure to store the crates and stacks.
+I decided to use [linked lists](https://en.wikipedia.org/wiki/Linked_list) for both the crates and the stacks because they can be dynamically extended as the input file is processed.
+Crates of a stack are stored in a linked list whose nodes have type [`CrateNode`](day_05/stacks.pas#L9-L12).
+Stacks are also in a linked list made up of nodes of type [`StackNode`](day_05/stacks.pas#L17-L21).
+So, essentially, we have a linked list of linked lists.
+What remains is just to implement the functions that manipulate these lists.
+Note that, [memory is only allocated when reading the initial configuration](day_05/stacks.pas#L97) of the crates.
+Later, [move operations](day_05/stacks.pas#L125) only manipulate pointers.
