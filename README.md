@@ -8,15 +8,19 @@ I decided to document my progress here.
 
 ## General Information
 
-I'm developing using [Ubuntu](https://ubuntu.com/desktop/developers) because that's the best and also for everybody to be able to follow.
-Even if your main OS isn't Ubuntu, you can still run it in a [virtual machine](https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox) or, under Windows, using [WSL](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support).
-You will need a bunch of compilers, interpreters, build tools, etc. to be able to run the solutions.
+I'm developing using [Ubuntu](https://ubuntu.com/desktop/developers) because [that's the best](https://www.whizlabs.com/blog/why-ubuntu-is-best-os-for-programming/) and also for everybody to be able to follow.
+Even if your main OS isn't Ubuntu, you can still run it in a [virtual machine](https://ubuntu.com/tutorials/how-to-run-ubuntu-desktop-on-a-virtual-machine-using-virtualbox) or, under Windows, using [WSL](https://github.com/pereszlenyi/wsl/blob/main/README.md).
+You will need a bunch of [compilers](https://en.wikipedia.org/wiki/Compiler), [interpreters](https://en.wikipedia.org/wiki/Interpreter_(computing)), [build tools](https://en.wikipedia.org/wiki/Build_automation), etc. to be able to run the solutions.
 To make it easy, you can install all the requirements by running [`install.sh`](install.sh).
 (It will ask for your password and you must be able to [sudo](https://en.wikipedia.org/wiki/Sudo).)
+Internally, `install.sh` executes the [Ansible playbook](https://docs.ansible.com/ansible/latest/playbook_guide/playbooks_intro.html) [`install.ansible.yml`](install.ansible.yml) which does most of the work.
 
 Now, let's jump in and solve puzzles!
 
 ## Day 1: Fortran
+
+[<img src="https://fortran-lang.org/_static/fortran-logo-256x256.png" alt="Fortran" style="height:3em;">](https://fortran-lang.org/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/1/13/Cmake.svg" alt="CMake" style="height:3em;">](https://cmake.org/)
 
 [Fortran](https://en.wikipedia.org/wiki/Fortran) (FORmula TRANslator) is regarded as the [first widely used high-level programming language](https://en.wikipedia.org/wiki/History_of_programming_languages#First_programming_languages).
 It was created in 1957 by [John Backus](https://en.wikipedia.org/wiki/John_Backus) and folks at [IBM](https://www.ibm.com/ibm/history/ibm100/us/en/icons/fortran/).
@@ -34,8 +38,10 @@ Both parts of the puzzle can be solved by calculating the top 3 most Calories wh
 
 ## Day 2: COBOL
 
+[<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/COBOL_Report_Apr60.djvu/page1-780px-COBOL_Report_Apr60.djvu.jpg" alt="COBOL" style="height:4em;">](https://en.wikipedia.org/wiki/COBOL)
+
 [COBOL](https://en.wikipedia.org/wiki/COBOL) (COmmon Business-Oriented Language) was created in 1959 for business use.
-While programming the previous day's solution in the *evolved* version of Fortran was essentially painless, the same can't be said about COBOL.
+While programming the previous day's solution in the *evolved* version of [Fortran](#day-1-fortran) was essentially painless, the same can't be said about COBOL.
 I feel COBOL still has the vibe of what programming was in the 60s.
 It's also [really verbose](https://en.wikipedia.org/wiki/COBOL#Syntax).
 Since COBOL is still widely used (and also because of its historical importance), I had to include it here.
@@ -55,9 +61,11 @@ The only thing that may be a bit interesting (in the solution) is [how the score
 
 ## Day 3: Lisp
 
-Lisp (LISt Processor) was designed by [John McCarthy](https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)) in 1960 and was first implemented by [Steve Russell](https://en.wikipedia.org/wiki/Steve_Russell_(computer_scientist)).
+[<img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Lisp_logo.svg" alt="Lisp" style="height:3em;">](https://en.wikipedia.org/wiki/Lisp_(programming_language))
+
+[Lisp](https://en.wikipedia.org/wiki/Lisp_(programming_language)) (LISt Processor) was designed by [John McCarthy](https://en.wikipedia.org/wiki/John_McCarthy_(computer_scientist)) in 1960 and was first implemented by [Steve Russell](https://en.wikipedia.org/wiki/Steve_Russell_(computer_scientist)).
 Initially, Lisp was meant to be a completely theoretical (mathematical) programming language but then quickly became the favoured language for early artificial intelligence research.
-This origin makes Lisp quite an unusual language compared to Fortran or COBOL.
+This origin makes Lisp quite an unusual language compared to [Fortran](#day-1-fortran) or [COBOL](#day-2-cobol).
 Lisp has evolved over the years and many dialects emerged.
 We use here one of the most common, [ANSI Common Lisp](https://en.wikipedia.org/wiki/Common_Lisp).
 Some interesting features of the language are:
@@ -65,6 +73,12 @@ Some interesting features of the language are:
 * In Lisp, `((`everything`)` `(`is in`)` `(`parentheses`))`.
 * Lisp uses a [*prefix notation*](https://en.wikipedia.org/wiki/Polish_notation) which means that `1 + 2` is written as `(+ 1 2)`.
 * [Linked list](https://en.wikipedia.org/wiki/Linked_list) is the major data structure and code is also represented as lists.
+* Unlike [Fortran](#day-1-fortran) and [COBOL](#day-2-cobol), Lisp code doesn't have to be compiled.
+The lisp [interpreter](https://en.wikipedia.org/wiki/Interpreter_(computing)) can directly execute the code in the source file.
+* The Lisp interpreter can also be run in interactive mode.
+This mode is a [command-line interface](https://en.wikipedia.org/wiki/Command-line_interface):
+We can input Lisp expressions which are evaluated and the result is printed.
+In Lisp, this is called the [read-eval-print loop](https://en.wikipedia.org/wiki/Read%E2%80%93eval%E2%80%93print_loop).
 * The following functions are all used to check for equality: `equal`, `eql`, `eq`,`=`, `equalp`, `string-equal`.
 
 ### Solution for [Day 3: Rucksack Reorganization](https://adventofcode.com/2022/day/3) [&#128194;](day_03)
@@ -76,6 +90,9 @@ In our solution, it is done without using loops.
 This is possible in Lisp by using [higher-order functions](https://en.wikipedia.org/wiki/Higher-order_function) and [recursion](https://en.wikipedia.org/wiki/Recursion) instead.
 
 ## Day 4: BASIC (on the Commodore 64)
+
+[<img src="https://upload.wikimedia.org/wikipedia/commons/f/f7/Commodore_64.svg" alt="Commodore 64" style="height:2em;">](https://en.wikipedia.org/wiki/Commodore_64)
+[<img src="https://vice-emu.sourceforge.io/images/vice-logo.svg" alt="VICE" style="height:2em;background-color:rgba(16,16,16,0.75);">](https://vice-emu.sourceforge.io/)
 
 [BASIC](https://en.wikipedia.org/wiki/BASIC) (Beginners' All-purpose Symbolic Instruction Code) was created by [John G. Kemeny](https://en.wikipedia.org/wiki/John_G._Kemeny) (or, in Hungarian, Kemény János György) and [Thomas E. Kurtz](https://en.wikipedia.org/wiki/Thomas_E._Kurtz) in 1963.
 They wanted to ease access to computers for students without strong scientific backgrounds.
@@ -103,10 +120,10 @@ Running [`install.sh`](install.sh) will set this up for you.
 The source of the solution is in [`cleanup.bas`](day_04/cleanup.bas) and the input is in [`input.txt`](day_04/input.txt), as usual.
 Running this on the emulator is not entirely trivial though.
 While we are used to [ASCII](https://en.wikipedia.org/wiki/ASCII) text files on the PC, Commodore uses a different character set (called [PETSCII](https://www.c64-wiki.com/wiki/PETSCII)).
-This requires the source and input files to be [converted](day_04/run.sh#L23-L26).
-The converted files then have to be [written to a virtual disk image](day_04/run.sh#L27-L32).
+This requires the source and input files to be [converted](day_04/run.sh#L25-L28).
+The converted files then have to be [written to a virtual disk image](day_04/run.sh#L29-L34).
 This disk image could be written to an actual floppy disk and then the program could be run on an actual C64.
-We can also [start the emulator](day_04/run.sh#L35-L36) with the disk image attached.
+We can also [start the emulator](day_04/run.sh#L37-L38) with the disk image attached.
 All of this is done by [`run.sh`](day_04/run.sh), so all you need to do is run it.
 It will open the emulator window and start the program.
 With the default input, you will see the following on the emulator's screen:
@@ -136,6 +153,9 @@ You can look at the source code inside the emulator by typing in [LIST](https://
 
 ## Day 5: Pascal (with Turbo Pascal)
 
+[<img src="https://i0.wp.com/blogs.embarcadero.com/wp-content/uploads/2021/03/turboad-2875032.png" alt="Turbo Pascal" style="height:5em;">](https://blogs.embarcadero.com/50-years-of-pascal-and-delphi-is-in-power/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/d/dd/DOSBox_icon.png" alt="DOSBox" style="height:3em;">](https://www.dosbox.com/)
+
 [Pascal](https://en.wikipedia.org/wiki/Pascal_(programming_language)) was designed by [Niklaus Wirth](https://en.wikipedia.org/wiki/Niklaus_Wirth) in 1970.
 He named the language after the French scientist [Blaise Pascal](https://en.wikipedia.org/wiki/Blaise_Pascal).
 In the 90s, [Commodore](#day-4-basic-on-the-commodore-64) home computers were replaced by [IBM PC compatible computers](https://en.wikipedia.org/wiki/IBM_PC_compatible) and, at the same time, the popularity of [BASIC](#day-4-basic-on-the-commodore-64) declined.
@@ -164,7 +184,7 @@ Consequently, the maximum length of a `string` is 255 and the characters of the 
 ### Solution for [Day 5: Supply Stacks](https://adventofcode.com/2022/day/5) [&#128194;](day_05)
 
 Since Turbo Pascal 5.5 is for DOS, we will use [DOSBox](https://www.dosbox.com/) to run it.
-DOSBox is a great DOS emulator that you can use to run many of the classic DOS games.
+DOSBox is a great DOS emulator that you can use to [run many of the classic DOS games](https://www.pcmag.com/how-to/how-to-play-classic-dos-games-for-free).
 Running [`install.sh`](install.sh) installs DOSBox and downloads Turbo Pascal 5.5.
 
 The source code of the solution is in [`stacks.pas`](day_05/stacks.pas) and the default input is in [`input.txt`](day_05/input.txt).
@@ -173,7 +193,7 @@ This script does a couple of things.
 It [creates a shared folder](day_05/build_and_run.sh#L41-L43) that will be the `C:` drive in DOS.
 Then it [extracts Turbo Pascal 5.5](day_05/build_and_run.sh#L47-L48) from the downloaded zip file and [copies `stacks.pas` and `input.txt`](day_05/build_and_run.sh#L49-L50) to the shared folder.
 It then [starts DOSBox](day_05/build_and_run.sh#L54-L58) and, inside DOSBox, [compiles the source file](day_05/build_and_run.sh#L57) using `TPC.EXE`, the command-line compiler.
-Finally, it will [run the executable](day_05/build_and_run.sh#L58) with `input.txt`.
+Finally, it [runs the executable](day_05/build_and_run.sh#L58) with `input.txt`.
 
 With the DOSBox window open, you can start the Turbo Pascal IDE by typing in `Disk1\TURBO.EXE`.
 Then you can load `stacks.pas` into the editor, edit the code, build it, run it, etc.
